@@ -2,86 +2,196 @@ console.log('js');
 
 $(document).ready(function(){
 
-  // ==========================================================
-  // Declaration of an array of objects
-  // ==========================================================
+// ==========================================================
+// Declaration of an array of objects
+// ==========================================================
 
 var shoes = [
   {
     id : 100,
-    type : 'Womens Shoe',
-    name : 'Nike Air Force 1 Sage Low',
+    type : 'Womens',
+    name : 'Air Force 1 Sage Low',
     color : '3 colours',
     price : '$200',
     size : 'US 5-12',
-    photo : 'air_force.jpg'
+    photo : 'air_force.jpg',
+    tagWords : ['air', 'force', 'sage', 'low', 'womens']
   },
   {
     id : 101,
-    type : 'Unisex Shoe',
-    name : 'Nike Blazer Mid 77',
+    type : 'Unisex',
+    name : 'Blazer Mid 77',
     color : '5 colours',
     price : '$170',
     size : 'US 5-12',
-    photo : 'blazer_mid.jpg'
+    photo : 'blazer_mid.jpg',
+    tagWords : ['blazer', 'mid', '77', 'unisex']
   },
   {
     id : 102,
-    type : 'Womens Shoe',
-    name : 'Nike Air Max 90',
+    type : 'Womens',
+    name : 'Air Max 90',
     color : '2 colours',
     price : '$200',
     size : 'US 5-12',
-    photo : 'air_max.jpg'
+    photo : 'air_max.jpg',
+    tagWords : ['air', 'max', '90', 'womens']
   },
   {
     id : 103,
-    type : 'Unisex Shoe',
-    name : 'Nike Air Jordan 1',
+    type : 'Unisex',
+    name : 'Air Jordan 1',
     color : '2 colours',
     price : '$190',
     size : 'US 7-18',
-    photo : 'air_jordan.jpg'
+    photo : 'air_jordan.jpg',
+    tagWords : ['air', 'jordan', '1', 'unisex']
   },
   {
     id : 104,
-    type : 'Mens Shoe',
-    name : 'Nike Air Jordan 1 Low Premium',
+    type : 'Mens',
+    name : 'Air Jordan 1 Low Premium',
     color : '1 colour',
     price : '$220',
     size : 'US 7-18',
-    photo : 'air_jordan_1.jpg'
+    photo : 'air_jordan_1.jpg',
+    tagWords : ['air', 'jordan', '1', 'mens','low','premium']
   },
   {
     id : 105,
-    type : 'Womens Shoe',
-    name : 'Nike Court Royale 2 Mid',
+    type : 'Womens',
+    name : 'Court Royale 2 Mid',
     color : '2 colours',
     price : '$120',
     size : 'US 5-12',
-    photo : 'court_royale.jpg'
+    photo : 'court_royale.jpg',
+    tagWords : ['court', 'royale', '2', 'mid','womens']
   }
 ];// end of object array list
 
-var i = 0;
-for (i = 0 ; i < shoes.length; i++){
-  $('#result').append( '<div class="col-md-4 mb-2">' +
-                            '<div class="card border-primary mb-3 text-secondary" style="width: 18rem;">' +
-                               '<img src="images/' + shoes[i].photo + '" class="card-img-top" alt="' + shoes[i].type + '">' +
-                               '<div class="card-body bg-primary ">' +
-                                '<h2 class="card-title">'+ shoes[i].name + '</h2>' +
-                                '<h5 class="card-text text-secondary">' + ' ' + '<span class="text-secondary">' + shoes[i].type + '</span> <br></h5>' +
-                                 '<h5 class="card-text text-secondary">' + ' ' + '<span class="text-secondary">' + shoes[i].color + '</span> <br></h5>' +
-                                 '<h5 class="card-text text-secondary">' + ' ' + '<span class="text-secondary">' + shoes[i].price + '</span> <br></h5>' +
+// ==========================================================
+// Function call to display all items
+// ==========================================================
 
-                                '<button id="' + shoes[i].id + '" type="button" class="btn btn-warning moreDetails" data-toggle="modal" data-target="#exampleModal">More Shoes'+ " " + '</button>' +
-                              '</div>' +
-                            '</div>' +
-                        '</div>'
-                    ); //append ends here
+allShoes(); //displays all items on home page
 
+$('#resetBtn').click(function(){
+  console.log('reset');
+  allShoes();
+});
+
+// ==========================================================
+// display items as per users input - type filter call
+// ==========================================================
+
+$('#submitBtn').click(function(){
+  var inputArray = [];
+
+  //read input of users and store
+  var mens = $('#mens:checked').val();
+  var womens = $('#womens:checked').val();
+  var unisex = $('#unisex:checked').val();
+  console.log(mens, womens, unisex);
+  //push users input into an array
+
+  if(mens === 'checked') {
+    inputArray.push('Mens');
+    console.log(inputArray);
+  }
+
+  if(womens === 'checked') {
+    inputArray.push('Womens');
+    console.log(inputArray);
+  }
+
+  if(unisex === 'checked') {
+    inputArray.push('Unisex');
+    console.log(inputArray);
+  }
+
+  //call the function to filers user's choice
+  filteredShoes(inputArray);
+
+}); // end of submitBtn function
+
+// ==========================================================
+// Filter by Gender type
+// ==========================================================
+
+function filteredShoes(shoeType){
+  console.log(shoeType);
+  var i,j;
+  $('#result').text(' ');
+  for(i = 0 ; i < shoes.length; i++) {
+    for (j = 0 ; j < shoeType.length; j++){
+      if (shoeType[j] === shoes[i].type) {
+
+        displayCards(i);
+        cardModal();
+      }//if
+    }//for j
+  }//for i
+}//filteredShoes
+
+// ==========================================================
+// Search by word
+// ==========================================================
+
+$('#searchWord').click(function(){
+  $(this).val('');
+  console.log(this);
+}); // end of click function
+
+$('#searchBtn').click(function(){
+  $('input[type=checkbox]').prop('checked',false);
+  var searchWord = $('#searchWord').val();
+  console.log(searchWord);
+  // debugger;
+  filterByWord(searchWord);
+}); //end of click function
+
+// ==========================================================
+// Filter by word
+// ==========================================================
+
+function filterByWord(word){
+  console.log(word);
+  debugger;
+  var i,j;
+  $('#result').text('');
+  for (i = 0 ; i < shoes.length; i++){
+    for (j = 0; j < shoes[i].tagWords.length; j++){
+      console.log(word.toLowerCase(), shoes[i].tagWords[j]);
+      if (word.toLowerCase() === shoes[i].tagWords[j]) {
+        debugger;
+        displayCards(i);
+        debugger;
+        cardModal();
+      } //if
+    } // for j
+  } // for i
+} // end of filterByWord function
+
+// ==========================================================
+// Function to display all items
+// ==========================================================
+
+function allShoes(){
+  var i = 0;
+  console.log('allShoes');
+  $('#result').text(' ');
+  for (i = 0 ; i < shoes.length; i++){
+    displayCards(i);
+    cardModal();
   } //end of for loop
+  } //end of allCats function
 
+
+// ==========================================================
+// Modal
+// ==========================================================
+
+function cardModal(){
  // modal
   $('.moreDetails').click(function(){
   $('#imageShoes').text(' '); //clearing the content
@@ -99,9 +209,37 @@ for (i = 0 ; i < shoes.length; i++){
         $('.modalContent').append('<div class="text-secondary display-4 p-2"' + shoes[i].type + '<br>' + shoes[i].color + '<br>' + shoes[i].price + '<br>' + shoes[i].size);
     } //end of if statement
   }//end of for statement
+
 }); // end of moreDetails click event
 
+} // end of cardModal
 
+
+// ==========================================================
+//  Card
+// ==========================================================
+
+function displayCards(j){
+
+// var i = 0;
+// for (i = 0 ; i < shoes.length; i++){
+  $('#result').append( '<div class="col-md-4 mb-2">' +
+                            '<div class="card border-primary mb-3 text-secondary" style="width: 18rem;">' +
+                               '<img src="images/' + shoes[j].photo + '" class="card-img-top" alt="' + shoes[j].type + '">' +
+                               '<div class="card-body bg-primary ">' +
+                                '<h2 class="card-title">'+ shoes[j].name + '</h2>' +
+                                '<h5 class="card-text text-secondary">' + ' ' + '<span class="text-secondary">' + shoes[j].type + '</span> <br></h5>' +
+                                 '<h5 class="card-text text-secondary">' + ' ' + '<span class="text-secondary">' + shoes[j].color + '</span> <br></h5>' +
+                                 '<h4 class="card-text text-secondary">' + ' ' + '<span class="text-secondary">' + shoes[j].price + '</span> <br></h4>' +
+
+                                '<button id="' + shoes[j].id + '" type="button" class="btn btn-warning moreDetails" data-toggle="modal" data-target="#exampleModal">More Shoes'+ " " + '</button>' +
+                              '</div>' +
+                            '</div>' +
+                        '</div>'
+                    ); //append ends here
+
+  // } //end of for loop
+}//end of function
 
 
 }); // End of document.ready()

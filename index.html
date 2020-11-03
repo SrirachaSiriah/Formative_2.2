@@ -34,23 +34,65 @@
 
     <!-- Search function -->
     <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2 " type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-warning my-2 my-sm-0" type="submit">Search</button>
+      <input class="form-control mr-sm-2 rounded-pill" id="searchWord" type="text" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-warning my-2 my-sm-0 rounded-pill" id="searchBtn" type="submit">Search</button>
     </form>
   </div>
 </nav>
 
 <!-- end of navbar -->
 
-<!-- start of body -->
 
-  <main class="container">
+<!-- Filter Form  -->
 
+  <div class="col col-sm-3 clearfix filterClass">
+
+  <!-- Form Start -->
+  <form class="p-5" action="index.html" method="post">
+
+  <!-- Subheader -->
+  <h4 class="">Gender</h4>
+
+  <!-- Filter Options -->
+  <input class="filter-input my-3" id="mens" type="checkbox" name="Type" value="checked">
+  <label class="filter-label pl-3" for="mens">Mens</label> <br>
+
+  <input class="filter-input my-3" id="womens" type="checkbox" name="Color" value="checked">
+  <label class="filter-label pl-3" for="womens">Womens</label> <br>
+
+  <input class="filter-input my-3" id="unisex" type="checkbox" name="Price" value="checked">
+  <label class="filter-label pl-3" for="unisex">Unisex</label> <br>
+
+  <div class="py-3">
+
+    <button class="btn btn-warning nav-btn rounded-pill" id="submitBtn" type="button" name="button">Search</button>
+    <!-- <button class="btn btn-warning nav-btn" id="resetBtn" type="button" name="button">Reset</button> -->
+    <button class="btn btn-outline-warning nav-btn rounded-pill" id="resetBtn" type="button" name="button">Reset</button>
+
+  </div>
+
+  </form>
+
+  <div class="pl-5">
+    <select class="sortBtn rounded-pill" name="" id="sortBtn">
+      <option value="">Sort by</option>
+      <option value="Name">Names A-Z</option>
+      <option value="Breed">Type</option>
+      <option value="Color">Color</option>
+      <option value="BehaviourAZ">Price</option>
+    </select>
+  </div>
+
+  </div>
+
+
+
+<main class="container">
 
 <!-- Modal -->
 
 <!-- Cards and modal column -->
-<div  class="col col-sm-12 text-light  my-5   display-4">
+<div  class="col col-sm-12 text-light my-5 display-4">
 
 <!-- Result container -->
 <div  class="text-light  my-4 display-4">
